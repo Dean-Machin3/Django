@@ -23,5 +23,7 @@ class QuestionAdmin(admin.ModelAdmin):
     #change the way quesions are listed in the admin screen
     list_display = ('question_text','pub_date', 'was_published_recently' )
 
+    #Create a filter for viewing Questions by date added
+    list_filter = ['pub_date']
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
