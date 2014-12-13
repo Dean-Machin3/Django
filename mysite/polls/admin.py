@@ -25,5 +25,10 @@ class QuestionAdmin(admin.ModelAdmin):
 
     #Create a filter for viewing Questions by date added
     list_filter = ['pub_date']
+
+    #create a search field
+    search_fields = ['question_text']
+
+#use a model with a given profile
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
