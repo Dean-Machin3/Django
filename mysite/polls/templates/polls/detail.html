@@ -1,7 +1,19 @@
 <!--Template to print the questions on the index of polls if they exist-->
 <h1>{{question.question_text}}</h1>
-<ul>
+
+<!--if there is an error display the message-->
+{%if error_message %}
+  <p><strong>
+    {{error_message}}
+  </strong></p>
+{% endif %}
+
+<!--create an html form-->
+<form action ="{%url 'polls:vote' question.id %}" method="post">
+  {%csrf_token %} <!--Security against external POST attacks-->
   {%for choice in question.choice_set.all %}
-    <li>{{choice.choice_text}}</li>
-  {%endfor %}
-</ul>
+    <input type="radio" name="choice" id="choice{{forloop.counter}}" value ="{{choice.id}}"/>
+    <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label> <br />
+  {% endfor %}
+  <input type="submit" value"Vote" />
+</form>
