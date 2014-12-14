@@ -1,0 +1,12 @@
+<!--Template to print the questions on the index of polls if they exist-->
+
+
+{% if latest_question_list %}
+  <ul>
+    {% for question in latest_question_list %}
+    <li><a href="/polls/{{question_id}}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No polls available
+{% endif %}
