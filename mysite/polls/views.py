@@ -1,30 +1,31 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.views import generic
 
 from polls.models import Question, Choice
 
 #index view
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list':latest_question_list}
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
 
-    return render(request, 'polls/index.html', context)
+    def get_queryset(self):
+        """Return the lase 5 views published"""
+        return Question.objects.order_by('-pub_date')[:5]
 
 #more views, but with arguments
 
 #detail -- check that the object exists and return a rendered page
 #using 'polls/detail.html' template
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': question})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
 
 
-
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    response = "You're looking at the results of question %s."
-    return render(request, 'polls/results.html', {'question':question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
 
 
 
